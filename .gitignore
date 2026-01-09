@@ -1,0 +1,8 @@
+# Abaikan folder module (karena berat & bisa di-install ulang)
+node_modules/
+
+# SANGAT PENTING: Abaikan file konfigurasi rahasia (.env)
+.env
+
+# Abaikan file log error (opsional)
+npm-debug.log
