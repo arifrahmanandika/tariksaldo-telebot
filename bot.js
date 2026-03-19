@@ -44,12 +44,12 @@ function formatDataLdl(data) {
           // Double Encode
           let encodedMessage = encodeURIComponent(message).replace(
             /%23/g,
-            "%2523"
+            "%2523",
           );
           const linkWA = `https://api.whatsapp.com/send?phone=${centerTarikGp}&text=${encodedMessage}`;
 
           return `${name} = Rp${saldo.toLocaleString(
-            "id-ID"
+            "id-ID",
           )} \n🚀 [KLIK TEMBAK](${linkWA})`;
         }
       }
@@ -64,7 +64,7 @@ function processAndSendDownlineList(
   uplineId,
   pinTrx = 1234,
   adjustmentFactor = 100000,
-  centerNumber
+  centerNumber,
 ) {
   bot.sendChatAction(chatId, "typing");
 
@@ -74,7 +74,7 @@ function processAndSendDownlineList(
     if (err) {
       console.error(
         `[ERROR DB] Gagal ambil downline ${uplineId}:`,
-        err.message
+        err.message,
       );
       bot.sendMessage(chatId, "⚠️ Maaf, terjadi gangguan koneksi database.");
       return;
@@ -93,7 +93,7 @@ function processAndSendDownlineList(
           const message = `T.${row.idreseller}.-${adjustedSaldo}.${pinTrx}`;
           let encodedMessage = encodeURIComponent(message).replace(
             /%23/g,
-            "%2523"
+            "%2523",
           );
           const linkWA = `https://api.whatsapp.com/send?phone=${centerNumber}&text=${encodedMessage}`;
 
@@ -129,7 +129,7 @@ function processAndSendDownlineList(
     } else {
       bot.sendMessage(
         chatId,
-        "Zonk! Tidak ada downline dengan saldo mencukupi."
+        "Zonk! Tidak ada downline dengan saldo mencukupi.",
       );
     }
   });
@@ -152,7 +152,7 @@ bot.on("message", async (msg) => {
     timeZone: "Asia/Jakarta",
   });
   console.log(
-    `[${waktuMasuk}] 📩 PESAN BARU | Dari: ${fullName} (${senderId}) | Isi: "${text}"`
+    `[${waktuMasuk}] 📩 PESAN BARU | Dari: ${fullName} (${senderId}) | Isi: "${text}"`,
   );
 
   // --- [BARU] LOGIKA START (REGISTRASI USER) ---
@@ -181,7 +181,7 @@ bot.on("message", async (msg) => {
     bot.sendChatAction(chatId, "typing");
 
     db.query(
-      `SELECT jam, jamterima, idreseller id, namareseller nama, kodeproduk KP, tujuan, namaterminal terminal FROM transaksi WHERE statustransaksi NOT IN('1','2') LIMIT 50`,
+      `SELECT jam, jamterima, idreseller id, namareseller nama, kodeproduk KP, tujuan, namaterminal terminal, keterangan FROM transaksi WHERE statustransaksi NOT IN('1','2') LIMIT 50`,
       function (err, rows) {
         if (err) {
           console.error(`[ERROR DB] Gagal Cek Pending Mmm:`, err.message);
@@ -192,7 +192,7 @@ bot.on("message", async (msg) => {
         const formattedPending = rows
           .map(
             (entry) =>
-              `${entry.jam} - ${entry.jamterima} => ${entry.nama} (${entry.id}), ${entry.KP} ${entry.tujuan} => ${entry.terminal}`
+              `${entry.jam} - ${entry.jamterima} => ${entry.nama} (${entry.id}), ${entry.KP} ${entry.tujuan} => ${entry.terminal}\nKeterangan: ${entry.keterangan}`,
           )
           .join("\n\n");
 
@@ -202,7 +202,7 @@ bot.on("message", async (msg) => {
             : `Pending = ${rows.length}\n\n${formattedPending}`;
 
         bot.sendMessage(chatId, sendPending);
-      }
+      },
     );
 
     // Logika Lll (Cek Stok/Sukses)
@@ -225,7 +225,7 @@ bot.on("message", async (msg) => {
             if (!seenTerminals.has(entry.namaterminal)) {
               seenTerminals.add(entry.namaterminal);
               return `${entry.jam} => ${entry.namaterminal} *Rp ${Number(
-                entry.stok
+                entry.stok,
               ).toLocaleString("id-ID")}*`;
             }
             return null;
@@ -235,7 +235,7 @@ bot.on("message", async (msg) => {
           .join("\n\n");
 
         bot.sendMessage(chatId, formattedListTrx, { parse_mode: "Markdown" });
-      }
+      },
     );
 
     // Logika Hhh
@@ -274,7 +274,7 @@ bot.on("message", async (msg) => {
   ) {
     bot.sendMessage(
       chatId,
-      "Semongkooo..... Wokee.. Tunggu dilit iseh Loading..."
+      "Semongkooo..... Wokee.. Tunggu dilit iseh Loading...",
     );
     processAndSendDownlineList(chatId, "mk0093", 1234, 50000, centerTarikMk);
 
