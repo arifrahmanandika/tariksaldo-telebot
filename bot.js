@@ -192,7 +192,7 @@ bot.on("message", async (msg) => {
         const formattedPending = rows
           .map(
             (entry) =>
-              `${entry.jam} - ${entry.jamterima} => ${entry.nama} (${entry.id}), ${entry.KP} ${entry.tujuan} => ${entry.terminal}\nKeterangan: ${entry.keterangan}`,
+              `${entry.jam} - ${entry.jamterima} => ${entry.nama} (${entry.id}), ${entry.KP} ${entry.tujuan} => ${entry.terminal}\n  =>>:${entry.keterangan}`,
           )
           .join("\n\n");
 
